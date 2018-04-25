@@ -1,0 +1,18 @@
+<%= @input_previously_entered_message %>
+<%= @input_incorrect_format_message %>
+<%= @hit_message %>
+<%= @sunk_message %>
+<%= @miss_message %>
+
+<%= @game_message %>
+
+<p> Here's the grid :)  </p>
+
+<%=  @visual_grid.join %>
+
+<p>Please pick a grid number from 1-25 :) </p>
+
+<form>
+  <input type="text" name="user_input">
+</form>
+
