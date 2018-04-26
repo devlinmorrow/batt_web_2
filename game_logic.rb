@@ -14,29 +14,33 @@ class BattleshipsGame
     @boat_list = BoatList.new([@boat_1,@boat_2])
   end
 
-  def input_is_in_correct_format?(input)
-    input.between?(1,25)
+  def convert_to_grid_point(user_input)
+    user_input.to_i - 1
   end
 
-  def input_has_not_been_entered_previously?(grid_point)
-    grid_point.to_i.between?(1,25)
+  def input_not_in_correct_format?(user_input)
+    user_input.to_i < 1 || user_input.to_i > 25
   end
 
-  def hit?(input)
-    @boat_list.any_boat_hit?(input)
+ def input_has_been_entered_previously?(grid_point)
+    @grid.input_has_been_entered_previously?(grid_point)
   end
 
-  def hit_mechanics(input)
-    @grid.record_hit(input)
-    @boat_list.record_boat_hit(input)
+  def hit?(grid_point)
+    @boat_list.any_boat_hit?(grid_point)
   end
 
-  def boat_sunk?(input)
-    @boat_list.boat_sunk?(input)
+  def hit_mechanics(grid_point)
+    @grid.record_hit(grid_point)
+    @boat_list.record_boat_hit(grid_point)
   end
 
-  def miss_mechanics(input)
-    @grid.record_miss(input)
+  def boat_sunk?(grid_point)
+    @boat_list.boat_sunk?(grid_point)
+  end
+
+  def miss_mechanics(grid_point)
+    @grid.record_miss(grid_point)
     @guesses_left -= 1
   end
 

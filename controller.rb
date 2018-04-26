@@ -8,25 +8,31 @@ enable :sessions
 get "/play" do
 
   if params[:user_input]
-    input = params[:user_input].to_i - 1
+    user_input = params[:user_input]
+    grid_point = session[:game].convert_to_grid_point(user_input)
 
-    if session[:game].hit?(input)
-      @hit_message = "You got one!"
-      session[:game].hit_mechanics(input)
-      if session[:game].boat_sunk?(input)
-        @sunk_message = "And you sunk a boat!"
-      end 
+    if session[:game].input_not_in_correct_format?(user_input)
+      @input_incorrect_format_message = "Input not in correct format."
+    elsif session[:game].input_has_been_entered_previously?(grid_point)
+      @input_previously_entered_message = "You've already tried that one, please try another."
     else
-      @miss_message = "Oops, you missed, pal!"
-      session[:game].miss_mechanics(input)
-    end
+      if session[:game].hit?(grid_point)
+        @hit_message = "You got one!"
+        session[:game].hit_mechanics(grid_point)
+        if session[:game].boat_sunk?(grid_point)
+          @sunk_message = "And you sunk a boat!"
+        end 
+      else
+        @miss_message = "Oops, you missed, pal!"
+        session[:game].miss_mechanics(grid_point)
+      end
 
-    if session[:game].won?
-      redirect "/win"
-    elsif session[:game].lost?
-      redirect "/lose"
+      if session[:game].won?
+        redirect "/win"
+      elsif session[:game].lost?
+        redirect "/lose"
+      end
     end
-
   else 
     session[:game] = BattleshipsGame.new
   end
