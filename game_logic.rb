@@ -4,7 +4,8 @@ require_relative 'boat_list.rb'
 
 class BattleshipsGame
 
-  attr_reader :grid, :guesses_left
+  attr_accessor :guesses_left
+  attr_reader :grid, :boat_1
 
   def initialize
     @guesses_left = 5

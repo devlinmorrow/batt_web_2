@@ -1,6 +1,6 @@
 class Boat
 
-  attr_accessor :set_of_grid_points
+  attr_reader :set_of_grid_points
 
   def initialize(set_of_grid_points)
     @set_of_grid_points = Hash.new
